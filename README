@@ -1,0 +1,6 @@
+C::Tokenize is a Perl module to split C program text into a series of
+tokens.
+
+c2html.pl is a Perl script which converts a C program into an HTML
+version for viewing on the world-wide web.
+
