@@ -1,0 +1,5 @@
+lib/C/Tokenize.pm
+Makefile.PL
+MANIFEST			This list of files
+script/c2html.pl
+t/C-Tokenize.t
