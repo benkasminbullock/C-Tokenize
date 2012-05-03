@@ -24,7 +24,7 @@ require Exporter;
                /;
 use warnings;
 use strict;
-our $VERSION = 0.01;
+our $VERSION = 0.02;
 
 my @reserved_words = sort {length $b <=> length $a} 
     qw/auto if break int case long char register continue return
