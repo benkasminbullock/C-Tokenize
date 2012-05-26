@@ -2,4 +2,6 @@
 use warnings;
 use strict;
 use Perl::Build;
-perl_build;
+perl_build (
+    pod => ['lib/C/Tokenize.pod'],
+);

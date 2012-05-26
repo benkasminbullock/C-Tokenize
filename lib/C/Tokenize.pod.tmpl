@@ -1,0 +1,170 @@
+=head1 NAME
+
+C::Tokenize - reduce a C file to a series of tokens
+
+=head1 REGULAR EXPRESSIONS
+
+The regular expressions can be imported using, for example,
+
+    use C::Tokenize '$cpp_re'
+
+to import C<$cpp_re>.
+
+None of the regular expressions does any capturing. If you want to
+capture, add your own parentheses around the regular expression.
+
+=over
+
+=item $trad_comment_re
+
+Match C</* */> comments.
+
+=item $cxx_comment_re
+
+Match C<//> comments.
+
+=item $comment_re
+
+Match both C</* */> and C<//> comments.
+
+=item $cpp_re
+
+Match a C preprocessor instruction.
+
+=item $char_const_re
+
+Match a character constant, such as C<'a'> or C<'\-'>.
+
+=item $operator_re
+
+Match an operator such as C<+> or C<-->.
+
+=item $number_re
+
+Match a number, either integer, floating point, or hexadecimal. Does
+not do octal yet.
+
+=item $word_re
+
+Match a word, such as a function or variable name or a keyword of the
+language.
+
+=item $grammar_re
+
+Match other syntactic characters such as C<{> or C<[>.
+
+=item $single_string_re
+
+Match a single C string constant such as C<"this">.
+
+=item $string_re
+
+Match a full-blown C string constant, including compound strings
+C<"like" "this">.
+
+=back
+
+=head1 FUNCTIONS
+
+=head2 decomment
+
+    my $out = decomment ('/* comment */');
+    # $out = " comment ";
+
+Remove the comments from a string.
+
+=head2 tokenize
+
+    my $tokens = tokenize ($file);
+
+Convert C<$file> into a series of tokens. The return value is an array
+reference which contains hash references. Each hash reference
+corresponds to one token in the C file. Each token contains the
+following keys:
+
+=over
+
+=item leading
+
+Any whitespace which comes before the token (called "leading
+whitespace").
+
+=item name
+
+The name of the token, which may be 
+
+=over
+
+=item comment
+
+A comment, like 
+
+    /* This */
+
+or
+
+    // this.
+
+=item cpp
+
+A C preprocessor instruction like
+
+    #define THIS 1
+
+or
+
+    #include "That.h".
+
+=item char_const
+
+A character constant, like C<'\0'> or C<'a'>.
+
+=item grammar
+
+A piece of C "grammar", like C<{> or C<]> or C<< -> >>.
+
+=item number
+
+A number such as C<42>,
+
+=item word
+
+A word, which may be a variable name or a function.
+
+=item string
+
+A string, like C<"this">, or even C<"like" "this">.
+
+=back
+
+=item $name
+
+The value of the type. For example, if C<< $token->{name} >> equals
+'comment', then the value of the type is in , C<< $token->{comment} >>.
+
+    if ($token->{name} eq 'string') {
+        my $c_string = $token->{string};
+    }
+
+=back
+
+=head1 BUGS
+
+=over
+
+=item Octal not parsed
+
+It does not parse octal expressions.
+
+=item No trigraphs
+
+No handling of trigraphs.
+
+=item Requires Perl 5.10
+
+This module uses named captures in regular expressions, so it requires
+Perl 5.10 or more.
+
+=back
+
+[% INCLUDE "author" %]

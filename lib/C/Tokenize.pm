@@ -1,9 +1,3 @@
-=head1 NAME
-
-C::Tokenize - reduce a C file to a series of tokens
-
-=cut
-
 package C::Tokenize;
 require Exporter;
 @ISA = qw(Exporter);
@@ -37,68 +31,6 @@ my $reserved_re = qr/\b(?:$reserved_words)\b/;
 
 our @fields = qw/comment cpp char_const operator grammar 
                  number word string/;
-
-=head1 REGULAR EXPRESSIONS
-
-The regular expressions can be imported using, for example,
-
-    use C::Tokenize '$cpp_re'
-
-to import C<$cpp_re>.
-
-None of the regular expressions does any capturing. If you want to
-capture, add your own parentheses around the regular expression.
-
-=over
-
-=item $trad_comment_re
-
-Match C</* */> comments.
-
-=item $cxx_comment_re
-
-Match C<//> comments.
-
-=item $comment_re
-
-Match both C</* */> and C<//> comments.
-
-=item $cpp_re
-
-Match a C preprocessor instruction.
-
-=item $char_const_re
-
-Match a character constant, such as C<'a'> or C<'\-'>.
-
-=item $operator_re
-
-Match an operator such as C<+> or C<-->.
-
-=item $number_re
-
-Match a number, either integer, floating point, or hexadecimal. Does
-not do octal yet.
-
-=item $word_re
-
-Match a word, such as a function or variable name or a keyword of the
-language.
-
-=item $grammar_re
-
-Match other syntactic characters such as C<{> or C<[>.
-
-=item $single_string_re
-
-Match a single C string constant such as C<"this">.
-
-=item $string_re
-
-Match a full-blown C string constant, including compound strings
-C<"like" "this">.
-
-=cut
 
     # Regular expression to match a /* */ C comment.
 
@@ -240,46 +172,12 @@ our $c_re = qr/
              /x;
 
 
-=head2 decomment
-
-    my $out = decomment ('/* comment */');
-    # $out = " comment ";
-
-Remove the comments from a string.
-
-=cut
-
 sub decomment
 {
     my ($comment) = @_;
     $comment =~ s/^\/\*(.*)\*\/$/$1/sm;
     return $comment;
 }
-
-=head2 tokenize
-
-    my $tokens = tokenize ($file);
-
-Convert C<$file> into a series of tokens.
-
-Each token contains
-
-=over
-
-=item leading
-
-Leading whitespace
-
-=item name
-
-=item $name
-
-The value of the type, e.g. C<$token->{comment}> if C<$token->{name}>
-equals 'comment'.
-
-=back
-
-=cut
 
 sub tokenize
 {
@@ -372,20 +270,5 @@ sub get_line_number
     die "$pos outside bounds";
 }
 
-=head1 BUGS
-
-=over
-
-=item Octal not parsed
-
-It does not parse octal expressions.
-
-=item trigraphs
-
-No handling of trigraphs.
-
-=back
-
-=cut
 
 1;
