@@ -2,6 +2,18 @@
 
 C::Tokenize - reduce a C file to a series of tokens
 
+=head1 SYNOPSIS
+
+    # Remove all C preprocessor instructions from a C program:
+    use C::Tokenize '$cpp_re';
+    $c =~ s/$cpp_re//g;
+
+    # Print all the comments in a C program:
+    use C::Tokenize '$comment_re';
+    while ($c =~ /($comment_re)/) {
+        print "$1\n";
+    }
+
 =head1 REGULAR EXPRESSIONS
 
 The regular expressions can be imported using, for example,
