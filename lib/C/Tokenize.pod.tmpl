@@ -14,6 +14,10 @@ C::Tokenize - reduce a C file to a series of tokens
         print "$1\n";
     }
 
+=head1 DESCRIPTION
+
+This module provides
+
 =head1 REGULAR EXPRESSIONS
 
 The regular expressions can be imported using, for example,
@@ -74,7 +78,18 @@ Match a single C string constant such as C<"this">.
 Match a full-blown C string constant, including compound strings
 C<"like" "this">.
 
+=item $reserved_re
+
+Match a C reserved word like C<auto> or C<goto>.
+
 =back
+
+=head1 VARIABLES
+
+=head2 @fields
+
+@Fields contains a list of all the fields which are extracted by
+L</tokenize>.
 
 =head1 FUNCTIONS
 
@@ -147,7 +162,14 @@ A word, which may be a variable name or a function.
 
 A string, like C<"this">, or even C<"like" "this">.
 
+=item reserved
+
+A C reserved word, like C<auto> or C<goto>.
+
 =back
+
+All of the fields which may be captured are available in the variable
+L</@fields>.
 
 =item $name
 
@@ -157,6 +179,12 @@ The value of the type. For example, if C<< $token->{name} >> equals
     if ($token->{name} eq 'string') {
         my $c_string = $token->{string};
     }
+
+=item line
+
+The line number of the C file where the token occured. For a
+multi-line comment or preprocessor instruction, the line number always
+refers to the final line.
 
 =back
 
@@ -176,6 +204,11 @@ No handling of trigraphs.
 
 This module uses named captures in regular expressions, so it requires
 Perl 5.10 or more.
+
+=item No line directives
+
+The line numbers provided by L</tokenize> do not respect C line
+directives.
 
 =back
 

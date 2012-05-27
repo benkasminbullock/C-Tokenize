@@ -25,12 +25,6 @@ $tokens = tokenize ($long_comment);
 
 my $found;
 
-if (0) {
-printf "%d\n", scalar @$tokens;
-for my $token (@$tokens) {
-    print $token->{type}, " -> ", $token->{$token->{type}}, "\n";
-}
-}
 for my $token (@$tokens) {
     my $type = $token->{type};
     my $value = $token->{$type};
@@ -47,13 +41,6 @@ my $cpp_comment =<<'EOF';
 				 * smushmode */
 EOF
 $tokens = tokenize ($cpp_comment);
-# This prints out details in case this bug appears again.
-if (0) {
-printf "%d\n", scalar @$tokens;
-for my $token (@$tokens) {
-    print $token->{type}, " ", $token->{$token->{type}}, "\n";
-}
-}
 ok (@$tokens == 1, "Comment in CPP with newline");
 
 ok ($long_comment =~ /$trad_comment_re/);
