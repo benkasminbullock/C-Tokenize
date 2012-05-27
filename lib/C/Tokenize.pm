@@ -65,9 +65,11 @@ our $comment_re = qr/
                        )
                    /x;
 
-# Regular expression to match a C preprocessor instruction
+# Regular expression to match a C preprocessor instruction.
 
-our $cpp_re = qr/^\h*\#(?:
+our $cpp_re = qr/^\h*
+                 \#
+                 (?:
                     $trad_comment_re
                 |
                     [^\\\n]
