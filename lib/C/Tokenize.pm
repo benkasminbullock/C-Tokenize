@@ -228,19 +228,6 @@ sub tokenize
         push @tokens, \%element;
     }
 
-    # Check the list of tokens for reserved words. If the word is
-    # reserved, change its type and alter the field value.
-
-    for my $token (@tokens) {
-        if ($token->{type} eq 'word') {
-            my $word = $token->{word};
-            if ($word =~ $reserved_re) {
-                $token->{type} = 'reserved';
-                $token->{reserved} = $word;
-                delete $token->{word};
-            }
-        }
-    }
     return \@tokens;
 }
 
@@ -258,21 +245,6 @@ sub get_lines
         $start = $end + 1;
     }
     return @lines;
-}
-
-# get the line number of the start of the match of the regular
-# expression in $text.
-
-sub get_line_number
-{
-    my ($pos, $lines_ref) = @_;
-    for my $line (1..$#$lines_ref + 1) {
-        my $se = $lines_ref->[$line];
-        if ($pos >= $se->{start} && $pos <= $se->{end}) {
-            return $line;
-        }
-    }
-    die "$pos outside bounds";
 }
 
 1;
