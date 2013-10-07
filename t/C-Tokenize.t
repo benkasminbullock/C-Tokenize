@@ -1,8 +1,9 @@
 use warnings;
 use strict;
-use Test::More tests => 22;
+use Test::More;
 BEGIN { use_ok('C::Tokenize') };
 BEGIN { use_ok('C::Tokenize', '$trad_comment_re', 'decomment') };
+BEGIN { use_ok('C::Tokenize', ':all') };
 use C::Tokenize 'tokenize';
 
 my $tokens;
@@ -63,6 +64,8 @@ my $comment = "/*$stuff*/";
 my $decommented = decomment ($comment);
 
 ok ($decommented eq $stuff, "Test decomment for multiline comments");
+
+done_testing ();
 
 # Local variables:
 # mode: perl

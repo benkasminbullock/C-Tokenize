@@ -18,7 +18,7 @@ require Exporter;
                 $reserved_re
                /;
 
-our %EXPORT_OK = (
+our %EXPORT_TAGS = (
     all => \@EXPORT_OK,
 );
 
