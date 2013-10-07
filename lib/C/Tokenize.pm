@@ -17,6 +17,11 @@ require Exporter;
                 $string_re
                 $reserved_re
                /;
+
+our %EXPORT_OK = (
+    all => \@EXPORT_OK,
+);
+
 use warnings;
 use strict;
 our $VERSION = 0.04;
