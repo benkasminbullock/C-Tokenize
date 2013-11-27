@@ -103,7 +103,9 @@ L</tokenize>.
     my $out = decomment ('/* comment */');
     # $out = " comment ";
 
-Remove the comments from a string.
+Remove the traditional C comment marks C</*> and C<*/> from the
+beginning and end of a string, leaving only the comment contents. The
+string has to begin and end with comment marks.
 
 =head2 tokenize
 
@@ -188,8 +190,8 @@ The value of the type. For example, if C<< $token->{name} >> equals
 =item line
 
 The line number of the C file where the token occured. For a
-multi-line comment or preprocessor instruction, the line number always
-refers to the final line.
+multi-line comment or preprocessor instruction, the line number refers
+to the final line.
 
 =back
 
