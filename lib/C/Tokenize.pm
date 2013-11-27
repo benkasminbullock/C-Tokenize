@@ -24,7 +24,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = 0.05;
+our $VERSION = 0.06;
 
 my @reserved_words = sort {length $b <=> length $a} 
     qw/auto if break int case long char register continue return
