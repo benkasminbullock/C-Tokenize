@@ -16,18 +16,23 @@ C::Tokenize - reduce a C file to a series of tokens
 
 =head1 DESCRIPTION
 
-This module provides
+This module provides a tokenizer which breaks C source code into its
+smallest meaningful components, and the regular expressions which
+match each of these components. For example, the module supplies a
+regular expression L</$comment_re> which matches a C comment line.
 
 =head1 REGULAR EXPRESSIONS
 
-The regular expressions can be imported using, for example,
+The following regular expressions can be imported from this module
+using, for example,
 
     use C::Tokenize '$cpp_re'
 
 to import C<$cpp_re>.
 
-None of the regular expressions does any capturing. If you want to
-capture, add your own parentheses around the regular expression.
+None of the following regular expressions does any capturing. If you
+want to capture, add your own parentheses around the regular
+expression.
 
 =over
 
@@ -193,6 +198,17 @@ refers to the final line.
     use C::Tokenize ':all';
 
 exports all the regular expressions from the module.
+
+=head1 SEE ALSO
+
+=over
+
+=item 
+
+The regular expressions contained in this module are shown at this web
+page: L<http://www.lemoda.net/c/c-regex/index.html>.
+
+=back
 
 =head1 BUGS
 

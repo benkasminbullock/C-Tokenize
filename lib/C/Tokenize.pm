@@ -120,7 +120,9 @@ our $operator_re = qr/
 
 # Re to match a C number
 
-our $decimal_re = qr/[-+]?[0-9]*\.?[0-9]+([eE][-+]?[0-9]+)?l?/i;
+our $octal_re = qr/0[0-7]+/;
+
+our $decimal_re = qr/[-+]?([0-9]*\.)?[0-9]+([eE][-+]?[0-9]+)?l?/i;
 
 our $hex_re = qr/0x[0-9a-f]+l?/i;
 
@@ -129,6 +131,8 @@ our $number_re = qr/
                           $hex_re
                       |
                           $decimal_re
+		      |
+			  $octal_re
                       )
                   /x;
 
@@ -146,8 +150,8 @@ our $single_string_re = qr/
                              (?:
                                  "
                                  (?:[^\\"]+|\\[^"]|\\")*
-                                     "
-                                     )
+                                 "
+                             )
                          /x;
 
 

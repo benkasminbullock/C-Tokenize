@@ -65,6 +65,9 @@ my $decommented = decomment ($comment);
 
 ok ($decommented eq $stuff, "Test decomment for multiline comments");
 
+my $octal_1 = '012345';
+like ($octal_1, $C::Tokenize::octal_re, "octal matches");
+
 done_testing ();
 
 # Local variables:
