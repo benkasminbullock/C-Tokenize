@@ -24,7 +24,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = 0.04;
+our $VERSION = 0.05;
 
 my @reserved_words = sort {length $b <=> length $a} 
     qw/auto if break int case long char register continue return
@@ -197,9 +197,12 @@ sub tokenize
 {
     my ($text) = @_;
 
-    my @lines;
+    # This array contains array references, each of which is a pair of
+    # start and end points of a line in $text.
 
-    @lines = get_lines ($text);
+    my @lines = get_lines ($text);
+
+    # The tokens the input is broken into.
 
     my @tokens;
 
@@ -209,6 +212,7 @@ sub tokenize
         if ($match =~ /^\s+$/s) {
             die "Bad match.\n";
         }
+	# Add one to the line number while
         while ($match =~ /\n/g) {
             $line++;
         }
@@ -239,6 +243,9 @@ sub tokenize
 
     return \@tokens;
 }
+
+# The return value is an array containing start and end points of the
+# lines in $text.
 
 sub get_lines
 {
