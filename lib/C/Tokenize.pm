@@ -16,6 +16,7 @@ require Exporter;
                 $single_string_re
                 $string_re
                 $reserved_re
+		remove_quotes
                /;
 
 our %EXPORT_TAGS = (
@@ -24,7 +25,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = 0.06;
+our $VERSION = 0.08;
 
 my @reserved_words = sort {length $b <=> length $a} 
     qw/auto if break int case long char register continue return
