@@ -19,6 +19,7 @@ my $long_comment =<<'EOF';
 
 char		hardblank;
 int		charheight;
+_Bool wolf;
 /* Bogus */
 EOF
 
@@ -34,18 +35,21 @@ my @expect = (
     ['reserved', qr/int/],
     ['word', qr/charheight/],
     ['grammar', qr/;/],
+    ['reserved', qr/_Bool/],
+    ['word', qr/wolf/],
+    ['grammar', qr/;/],
     ['comment', qr/bogus/i],
 );
 
-ok (@$tokens == @expect, "Same number of tokens");
+is (scalar @$tokens, scalar @expect, "Same number of tokens");
 
 for my $i (0..$#expect) {
     my $token = $tokens->[$i];
     my $expect = $expect[$i];
     my $type = $token->{type};
-    ok ($type eq $expect->[0], "$type is $expect->[0]");
+    is ($type, $expect->[0], "$type is $expect->[0]");
     my $value = $token->{$type};
-    ok ($value =~ $expect->[1], "$value matches $expect->[1]");
+    like ($value, $expect->[1], "$value matches $expect->[1]");
 }
 
 # Test for comments within preprocessor instructions

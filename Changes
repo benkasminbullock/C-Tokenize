@@ -1,5 +1,9 @@
 Revision history for perl module C::Tokenize
 
+0.09 2014-01-15
+
+* Update list of C keywords to C99.
+
 0.08 2013-12-26
 
 * Documentation correction

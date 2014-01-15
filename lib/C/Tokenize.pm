@@ -25,13 +25,51 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = 0.08;
+our $VERSION = 0.09;
+
+# http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
+# 6.4.1
 
 my @reserved_words = sort {length $b <=> length $a} 
-    qw/auto if break int case long char register continue return
-       default short do sizeof double static else struct entry switch
-       extern typedef float union for unsigned goto while enum void
-       const signed volatile/;
+qw/
+auto
+break
+case
+char
+const
+continue
+default
+do
+double
+else
+enum
+extern
+float
+for
+goto
+if
+inline
+int
+long
+register
+restrict
+return
+short
+signed
+sizeof
+static
+struct
+switch
+typedef
+union
+unsigned
+void
+volatile
+while
+_Bool
+_Complex
+_Imaginary
+/;
 
 my $reserved_words = join '|', @reserved_words;
 our $reserved_re = qr/\b(?:$reserved_words)\b/;
