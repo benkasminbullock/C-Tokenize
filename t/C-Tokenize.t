@@ -59,15 +59,15 @@ my $cpp_comment =<<'EOF';
 				 * smushmode */
 EOF
 $tokens = tokenize ($cpp_comment);
-ok (@$tokens == 1, "Comment in CPP with newline");
+is (@$tokens, 1, "Comment in CPP with newline");
 
-ok ($long_comment =~ /$trad_comment_re/);
+like ($long_comment, qr/$trad_comment_re/);
 
 my $stuff = "babu\nchabu";
 my $comment = "/*$stuff*/";
 my $decommented = decomment ($comment);
 
-ok ($decommented eq $stuff, "Test decomment for multiline comments");
+is ($decommented, $stuff, "Test decomment for multiline comments");
 
 my $octal_1 = '012345';
 like ($octal_1, $C::Tokenize::octal_re, "octal matches");
