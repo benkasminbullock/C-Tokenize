@@ -16,6 +16,7 @@ require Exporter;
                 $single_string_re
                 $string_re
                 $reserved_re
+		$include_local
 		remove_quotes
                /;
 
@@ -25,7 +26,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = 0.09;
+our $VERSION = '0.10';
 
 # http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
 # 6.4.1
@@ -77,7 +78,7 @@ our $reserved_re = qr/\b(?:$reserved_words)\b/;
 our @fields = qw/comment cpp char_const operator grammar 
                  number word string reserved/;
 
-    # Regular expression to match a /* */ C comment.
+# Regular expression to match a /* */ C comment.
 
 our $trad_comment_re = qr!
                             /\*
@@ -224,6 +225,21 @@ our $c_re = qr/
                  )
              /x;
 
+
+# Match for '#include "file.h"'. This captures the entire #include
+# statement in $1 and the file name in $2.
+
+our $include_local = qr/
+			  ^
+			  (\#
+			      \s*
+			      include
+			      \s*
+			      "([a-zA-Z0-9\-]+\.h)"
+			  )
+			  (\s|$comment_re)*
+			  $
+		      /smx;
 
 sub decomment
 {

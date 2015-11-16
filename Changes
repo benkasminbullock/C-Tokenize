@@ -1,5 +1,9 @@
 Revision history for perl module C::Tokenize
 
+0.10 2015-11-15
+
+* Add "$include_local" regular expression
+
 0.09 2014-01-15
 
 * Update list of C keywords to C99.

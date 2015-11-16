@@ -1,3 +1,7 @@
+[% start_year="2012" %]
+
+=encoding UTF-8
+
 =head1 NAME
 
 C::Tokenize - reduce a C file to a series of tokens
@@ -30,9 +34,9 @@ using, for example,
 
 to import C<$cpp_re>.
 
-None of the following regular expressions does any capturing. If you
-want to capture, add your own parentheses around the regular
-expression.
+Most of the following regular expressions do not do any capturing,
+except where noted. If you want to capture, add your own parentheses
+around the regular expression.
 
 =over
 
@@ -86,6 +90,12 @@ C<"like" "this">.
 =item $reserved_re
 
 Match a C reserved word like C<auto> or C<goto>.
+
+=item $include_local
+
+Match an include statement which uses double quotes, like C<#include "some.c">.
+
+This captures the entire statement in C<$1> and the file name in C<$2>.
 
 =back
 
@@ -244,3 +254,4 @@ exercise many of the features of C.
 =back
 
 [% INCLUDE "author" %]
+[% INCLUDE "terminology" %]
