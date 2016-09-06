@@ -1,4 +1,15 @@
 [% start_year="2012" %]
+[% MACRO example(file) BLOCK %]
+[%- pl =  file _ ".pl" -%]
+[%- out = file _ "-out.txt" -%]
+[% INCLUDE $pl | xtidy %]
+
+produces output
+
+[% INCLUDE $out | xtidy %]
+
+(This example is included as L<F<[% pl %]>|https://api.metacpan.org/source/BKB/C-Tokenize-[% version %]/examples/[% pl %]> in the distribution.)
+[% END %]
 
 =encoding UTF-8
 
@@ -8,22 +19,27 @@ C::Tokenize - reduce a C file to a series of tokens
 
 =head1 SYNOPSIS
 
-    # Remove all C preprocessor instructions from a C program:
-    use C::Tokenize '$cpp_re';
-    $c =~ s/$cpp_re//g;
+[% example("synopsis-cpp") %]
 
-    # Print all the comments in a C program:
-    use C::Tokenize '$comment_re';
-    while ($c =~ /($comment_re)/) {
-        print "$1\n";
-    }
+[% example("synopsis-comment") %]
+
+=head1 VERSION
+
+This documents version [% version %] of C::Tokenize corresponding to git
+commit [% commit.commit %] released on [% commit.date %].
 
 =head1 DESCRIPTION
 
-This module provides a tokenizer which breaks C source code into its
-smallest meaningful components, and the regular expressions which
-match each of these components. For example, the module supplies a
-regular expression L</$comment_re> which matches a C comment line.
+This module provides a tokenizer, L</tokenize>, which breaks C source
+code into its smallest meaningful components, and the regular
+expressions which match each of these components. For example, the
+module supplies a regular expression L</$comment_re> which matches a C
+comment line.
+
+It also supplies some extra regular expressions for, for example,
+local include statements, L</$include_local>, or C variables,
+L</$cvar_re>, as well as extra functions L</decomment> for removing
+traditional C comments.
 
 =head1 REGULAR EXPRESSIONS
 
@@ -96,6 +112,13 @@ Match a C reserved word like C<auto> or C<goto>.
 Match an include statement which uses double quotes, like C<#include "some.c">.
 
 This captures the entire statement in C<$1> and the file name in C<$2>.
+
+=item $cvar_re
+
+This matches a C variable, for example anything which may be an lvalue
+or a function argument.
+
+[% example("cvar") %]
 
 =back
 
@@ -211,7 +234,7 @@ to the final line.
 
     use C::Tokenize ':all';
 
-exports all the regular expressions from the module.
+exports all the regular expressions and functions from the module.
 
 =head1 SEE ALSO
 
@@ -254,4 +277,3 @@ exercise many of the features of C.
 =back
 
 [% INCLUDE "author" %]
-[% INCLUDE "terminology" %]

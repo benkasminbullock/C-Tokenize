@@ -1,5 +1,10 @@
 Revision history for perl module C::Tokenize
 
+0.11 2016-09-06
+
+* Add "$cvar_re" regular expression
+* Change to machine-readable documentation
+
 0.10 2015-11-15
 
 * Add "$include_local" regular expression

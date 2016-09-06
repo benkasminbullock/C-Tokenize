@@ -18,6 +18,7 @@ require Exporter;
                 $reserved_re
 		$include_local
 		remove_quotes
+		$cvar_re
                /;
 
 our %EXPORT_TAGS = (
@@ -26,7 +27,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = '0.10';
+our $VERSION = '0.11';
 
 # http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
 # 6.4.1
@@ -240,6 +241,39 @@ our $include_local = qr/
 			  (\s|$comment_re)*
 			  $
 		      /smx;
+
+my $deref = qr!
+		  [\*&]+\s*$word_re
+	      !x;
+
+my $member = qr!
+		     (?:
+			 (?:
+			     ->
+			 |
+			     \.
+			 )
+			 $word_re
+		     )
+	       !x;
+
+# Any C variable which can be used as an lvalue or a function argument.
+
+our $cvar_re = qr!
+		 (?:
+		     # Any deferenced value
+		     $deref
+		 |
+		     # A word or a dereferenced value in brackets
+		     (?:
+			 $word_re
+		     |
+			 \(\s*$deref\)
+		     )
+		     # Followed by zero or more struct member
+		     $member*
+		 )
+	     !x;
 
 sub decomment
 {
