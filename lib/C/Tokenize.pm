@@ -31,7 +31,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = '0.12';
+our $VERSION = '0.13';
 
 # http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
 # 6.4.1
