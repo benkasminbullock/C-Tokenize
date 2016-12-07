@@ -3,7 +3,7 @@ use warnings;
 use strict;
 use lib '/home/ben/projects/C-Tokenize/lib';
 use C::Tokenize qw/tokenize @fields/;
-use File::Slurp;
+use File::Slurper 'read_text';
 
 =head1 NAME
 
@@ -15,12 +15,12 @@ c2html - convert C program text into HTML
 
 The output HTML probably requires editing to be useful.
 
-Requires L<File::Slurp> (not a distribution dependency).
+Requires L<File::Slurper> (not a distribution dependency).
 
 =cut
 
 for my $file (@ARGV) {
-    my $text = read_file ($file);
+    my $text = read_text ($file);
     my $tokens = tokenize ($text);
     my $html = make_html ($tokens);
     $html = boilerplate ($html, $file);

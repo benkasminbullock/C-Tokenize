@@ -17,6 +17,7 @@ require Exporter;
                 $string_re
                 $reserved_re
 		$include_local
+		$include
 		remove_quotes
 		$cvar_re
                /;
@@ -27,7 +28,7 @@ our %EXPORT_TAGS = (
 
 use warnings;
 use strict;
-our $VERSION = '0.11';
+our $VERSION = '0.12';
 
 # http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
 # 6.4.1
@@ -241,6 +242,20 @@ our $include_local = qr/
 			  (\s|$comment_re)*
 			  $
 		      /smx;
+
+our $include = qr/
+			  ^
+			  (\#
+			      \s*
+			      include
+			      \s*
+			      ["<]
+			      ([a-zA-Z0-9\-]+\.h)
+			      [">]
+			  )
+			  (\s|$comment_re)*
+			  $
+		 /smx;
 
 my $deref = qr!
 		  [\*&]+\s*$word_re

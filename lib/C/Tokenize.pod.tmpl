@@ -1,4 +1,7 @@
 [% start_year="2012" %]
+[% MACRO since(version) BLOCK -%]
+This was added in version [% version %] of C::Tokenize.
+[%- END %]
 [% MACRO example(file) BLOCK %]
 [%- pl =  file _ ".pl" -%]
 [%- out = file _ "-out.txt" -%]
@@ -38,8 +41,8 @@ comment line.
 
 It also supplies some extra regular expressions for, for example,
 local include statements, L</$include_local>, or C variables,
-L</$cvar_re>, as well as extra functions L</decomment> for removing
-traditional C comments.
+L</$cvar_re>, as well as extra functions, like L</decomment> for
+removing traditional C comments.
 
 =head1 REGULAR EXPRESSIONS
 
@@ -113,12 +116,26 @@ Match an include statement which uses double quotes, like C<#include "some.c">.
 
 This captures the entire statement in C<$1> and the file name in C<$2>.
 
+[% since('0.11') %]
+
+=item $include
+
+Match any include statement, like C<< #include <stdio.h> >>.
+
+This captures the entire statement in C<$1> and the file name in C<$2>.
+
+[% example("includes") %]
+
+[% since('0.12') %]
+
 =item $cvar_re
 
 This matches a C variable, for example anything which may be an lvalue
 or a function argument.
 
 [% example("cvar") %]
+
+[% since('0.11') %]
 
 =back
 
@@ -242,8 +259,20 @@ exports all the regular expressions and functions from the module.
 
 =item 
 
-The regular expressions contained in this module are shown at this web
-page: L<http://www.lemoda.net/c/c-regex/index.html>.
+The regular expressions contained in this module are L<shown at this
+web page|http://www.lemoda.net/c/c-regex/index.html>.
+
+=item
+
+L<This example of use of this
+module|http://www.lemoda.net/perl/remove-unnecessary-c-headers/>
+demonstrates using C::Tokenize (version 0.12) to remove unnecessary
+header inclusions from C files.
+
+=item
+
+There is a C to HTML converter in the F<examples> subdirectory of the
+distribution called F<c2html.pl>.
 
 =back
 
