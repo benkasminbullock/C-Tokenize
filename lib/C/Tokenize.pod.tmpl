@@ -1,6 +1,6 @@
 [% start_year="2012" %]
-[% MACRO since(version) BLOCK -%]
-This was added in version [% version %] of C::Tokenize.
+[% MACRO since(ver) BLOCK -%]
+This was added in version [% ver %] of C::Tokenize.
 [%- END %]
 [% MACRO example(file) BLOCK %]
 [%- pl =  file _ ".pl" -%]
@@ -11,8 +11,9 @@ produces output
 
 [% INCLUDE $out | xtidy %]
 
-(This example is included as L<F<[% pl %]>|https://api.metacpan.org/source/BKB/C-Tokenize-[% version %]/examples/[% pl %]> in the distribution.)
-[% END %]
+(This example is included as L<F<[% pl
+%]>|https://api.metacpan.org/source/BKB/C-Tokenize-[% info.version
+%]/examples/[% pl %]> in the distribution.)  [% END %]
 
 =encoding UTF-8
 
@@ -28,8 +29,9 @@ C::Tokenize - reduce a C file to a series of tokens
 
 =head1 VERSION
 
-This documents version [% version %] of C::Tokenize corresponding to git
-commit [% commit.commit %] released on [% commit.date %].
+This documents version [% info.version %] of C::Tokenize corresponding
+to git commit L<[% commit.commit %]|[% info.repo %]/commit/[%
+commit.commit %]> released on [% commit.date %].
 
 =head1 DESCRIPTION
 
@@ -116,7 +118,7 @@ Match an include statement which uses double quotes, like C<#include "some.c">.
 
 This captures the entire statement in C<$1> and the file name in C<$2>.
 
-[% since('0.11') %]
+[% since('0.10') %]
 
 =item $include
 
