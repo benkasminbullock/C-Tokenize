@@ -59,6 +59,8 @@ Most of the following regular expressions do not do any capturing,
 except where noted. If you want to capture, add your own parentheses
 around the regular expression.
 
+=head2 Comments
+
 =over
 
 =item $trad_comment_re
@@ -73,44 +75,16 @@ Match C<//> comments.
 
 Match both C</* */> and C<//> comments.
 
+=back
+
+=head2 Preprocessor instructions
+
+=over
+
 =item $cpp_re
 
-Match a C preprocessor instruction.
-
-=item $char_const_re
-
-Match a character constant, such as C<'a'> or C<'\-'>.
-
-=item $operator_re
-
-Match an operator such as C<+> or C<-->.
-
-=item $number_re
-
-Match a number, either integer, floating point, or hexadecimal. Does
-not do octal yet.
-
-=item $word_re
-
-Match a word, such as a function or variable name or a keyword of the
-language.
-
-=item $grammar_re
-
-Match other syntactic characters such as C<{> or C<[>.
-
-=item $single_string_re
-
-Match a single C string constant such as C<"this">.
-
-=item $string_re
-
-Match a full-blown C string constant, including compound strings
-C<"like" "this">.
-
-=item $reserved_re
-
-Match a C reserved word like C<auto> or C<goto>.
+Match all C preprocessor instructions, such as #define, #include,
+#endif, and so on.
 
 =item $include_local
 
@@ -130,12 +104,79 @@ This captures the entire statement in C<$1> and the file name in C<$2>.
 
 [% since('0.12') %]
 
+=back
+
+=head2 Values
+
+=over
+
+=item $octal_re
+
+Match an octal number, a number with digits 0 to 7 only which begins
+with a leading zero.
+
+=item $hex_re
+
+Match a hexadecimal number, a number with digits 0 to 9 and letters A
+to F, case insensitive, with a leading 0x or 0X and an optional
+trailing L or l for long.
+
+=item $decimal_re
+
+Match a decimal number, either integer or floating point.
+
+=item $number_re
+
+Match any number, either integer, floating point, hexadecimal, or
+octal.
+
+=item $char_const_re
+
+Match a character constant, such as C<'a'> or C<'\-'>.
+
+=item $single_string_re
+
+Match a single C string constant such as C<"this">.
+
+=item $string_re
+
+Match a full-blown C string constant, including compound strings
+C<"like" "this">.
+
+=back
+
+=head2 Operators, variables, and reserved words
+
+=over
+
+=item $operator_re
+
+Match an operator such as C<+> or C<-->.
+
+=item $word_re
+
+Match a word, such as a function or variable name or a keyword of the
+language. Use L</$reserved_re> to match only reserved words.
+
+=item $grammar_re
+
+Match non-operator syntactic characters such as C<{> or C<[>.
+
+=item $reserved_re
+
+Match a C reserved word like C<auto> or C<goto>. Use L</$word_re> to
+match non-reserved words.
+
 =item $cvar_re
 
-This matches a C variable, for example anything which may be an lvalue
-or a function argument.
+Match a C variable, for example anything which may be an lvalue or a
+function argument. It does not capture the result.
 
 [% example("cvar") %]
+
+Because in theory this can contain very complex things, this regex is
+somewhat heuristic and there are edge cases where it is known to
+fail. See F<t/cvar_re.t> in the distribution for examples.
 
 [% since('0.11') %]
 
@@ -145,8 +186,8 @@ or a function argument.
 
 =head2 @fields
 
-@Fields contains a list of all the fields which are extracted by
-L</tokenize>.
+The exported variable @fields contains a list of all the fields which
+are extracted by L</tokenize>.
 
 =head1 FUNCTIONS
 
@@ -251,9 +292,12 @@ to the final line.
 
 =head1 EXPORTS
 
+Nothing is exported by default.
+
     use C::Tokenize ':all';
 
-exports all the regular expressions and functions from the module.
+exports all the regular expressions and functions from the module, and
+also L</@fields>.
 
 =head1 SEE ALSO
 
@@ -281,10 +325,6 @@ distribution called F<c2html.pl>.
 =head1 BUGS
 
 =over
-
-=item Octal not parsed
-
-It does not parse octal expressions.
 
 =item No trigraphs
 

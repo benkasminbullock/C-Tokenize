@@ -3,23 +3,26 @@ require Exporter;
 @ISA = qw(Exporter);
 @EXPORT_OK = qw/tokenize
                 decomment
+		remove_quotes
                 @fields
-                $trad_comment_re
-                $cxx_comment_re
+		$include
+		$include_local
+                $char_const_re
                 $comment_re
                 $cpp_re
-                $char_const_re
-                $operator_re
-                $number_re
-                $word_re
+		$cvar_re
+                $cxx_comment_re
+		$decimal_re
                 $grammar_re
+		$hex_re
+                $number_re
+		$octal_re
+                $operator_re
+                $reserved_re
                 $single_string_re
                 $string_re
-                $reserved_re
-		$include_local
-		$include
-		remove_quotes
-		$cvar_re
+                $trad_comment_re
+                $word_re
                /;
 
 our %EXPORT_TAGS = (

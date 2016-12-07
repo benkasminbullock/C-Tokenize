@@ -1,5 +1,11 @@
 Revision history for perl module C::Tokenize
 
+0.13 2016-12-07
+
+* Improve $cvar_re to match more possible lvalues, and test it
+* Export $octal_re, $decimal_re, and $hex_re on demand
+* Document the above, and remove an error about octal from documentation
+
 0.12 2016-12-07
 
 * Add "$include" regular expression which matches any #include
