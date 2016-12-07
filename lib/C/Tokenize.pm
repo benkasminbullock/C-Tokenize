@@ -261,6 +261,16 @@ my $deref = qr!
 		  [\*&]+\s*$word_re
 	      !x;
 
+my $array_re = qr!
+		     $word_re
+		     \s*
+		     \[
+		     \s*
+		     $word_re
+		     \s*
+		     \]
+		 !x;
+
 my $member = qr!
 		     (?:
 			 (?:
@@ -269,6 +279,8 @@ my $member = qr!
 			     \.
 			 )
 			 $word_re
+		     |
+			 $array_re
 		     )
 	       !x;
 
@@ -282,6 +294,8 @@ our $cvar_re = qr!
 		     # A word or a dereferenced value in brackets
 		     (?:
 			 $word_re
+		     |
+			 $array_re
 		     |
 			 \(\s*$deref\)
 		     )
