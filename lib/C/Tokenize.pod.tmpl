@@ -366,9 +366,9 @@ exercise many of the features of C.
 
 =item $include and $include_local assume the included file end with .h
 
-There is no actual requirement that the file names end in .h, you can
-include any file. However, L</$include> and L</$include_local> insist
-on .h in the regex.
+The C language does not impose a requirement that included file names
+end in .h. You can include a file with any name. However, the regexes
+L</$include> and L</$include_local> insist on a final .h.
 
 =back
 
