@@ -12,7 +12,7 @@ produces output
 [% INCLUDE $out | xtidy %]
 
 (This example is included as L<F<[% pl
-%]>|https://api.metacpan.org/source/BKB/C-Tokenize-[% info.version
+%]>|https://fastapi.metacpan.org/source/BKB/C-Tokenize-[% info.version
 %]/examples/[% pl %]> in the distribution.)  [% END %]
 
 =encoding UTF-8
@@ -44,7 +44,8 @@ comment line.
 It also supplies some extra regular expressions for, for example,
 local include statements, L</$include_local>, or C variables,
 L</$cvar_re>, as well as extra functions, like L</decomment> for
-removing traditional C comments.
+removing traditional C comments, and L</strip_comments> for removing
+all comments from a C program.
 
 =head1 REGULAR EXPRESSIONS
 
@@ -76,6 +77,9 @@ Match C<//> comments.
 Match both C</* */> and C<//> comments.
 
 =back
+
+See also L</decomment> for converting a comment to a string, and
+L</strip_comments> for removing all comments from a program.
 
 =head2 Preprocessor instructions
 
@@ -202,12 +206,12 @@ string has to begin and end with comment marks.
 
 =head2 tokenize
 
-    my $tokens = tokenize ($file);
+    my $tokens = tokenize ($text);
 
-Convert C<$file> into a series of tokens. The return value is an array
-reference which contains hash references. Each hash reference
-corresponds to one token in the C file. Each token contains the
-following keys:
+Convert the C program code C<$text> into a series of tokens. The
+return value is an array reference which contains hash
+references. Each hash reference corresponds to one token in the C
+text. Each token contains the following keys:
 
 =over
 
@@ -276,7 +280,7 @@ L</@fields> which can be exported from the module:
 =item $name
 
 The value of the type. For example, if C<< $token->{name} >> equals
-'comment', then the value of the type is in , C<< $token->{comment} >>.
+'comment', then the value of the type is in C<< $token->{comment} >>.
 
     if ($token->{name} eq 'string') {
         my $c_string = $token->{string};
@@ -289,6 +293,17 @@ multi-line comment or preprocessor instruction, the line number refers
 to the final line.
 
 =back
+
+=head2 strip_comments
+
+    my $no_comment = strip_comments ($c);
+
+This removes all comments from its input while preserving line breaks.
+
+[% example("strip-comments") %]
+
+This function was moved to this module from L<XS::Check> in version
+0.14.
 
 =head1 EXPORTS
 
@@ -330,6 +345,8 @@ distribution called F<c2html.pl>.
 
 No handling of trigraphs.
 
+This is L<issue 4|https://github.com/benkasminbullock/C-Tokenize/issues/4>.
+
 =item Requires Perl 5.10
 
 This module uses named captures in regular expressions, so it requires
@@ -340,10 +357,18 @@ Perl 5.10 or more.
 The line numbers provided by L</tokenize> do not respect C line
 directives.
 
+This is L<issue 11|https://github.com/benkasminbullock/C-Tokenize/issues/11>.
+
 =item Insufficient tests
 
 The module has been used somewhat, but the included tests do not
 exercise many of the features of C.
+
+=item $include and $include_local assume the included file end with .h
+
+There is no actual requirement that the file names end in .h, you can
+include any file. However, L</$include> and L</$include_local> insist
+on .h in the regex.
 
 =back
 
