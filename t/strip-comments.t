@@ -25,4 +25,7 @@ my $stripped = strip_comments ($hairy);
 like ($stripped, qr/int x;/, "Did not accidentally remove stuff");
 like ($stripped, qr/(?:\h*\n){4}int x;/, "Preserved line numbering after stripping.");
 
+my $intx = strip_comments ('int/* comment */x');
+like ($intx, qr/int\s+x/, "Preserve one space in trad comments");
+
 done_testing ();

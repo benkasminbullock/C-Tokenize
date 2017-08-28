@@ -455,7 +455,11 @@ sub strip_comments
     # are deleted before C++ comments, see below for explanation.
     while ($xs =~ /($trad_comment_re)/) {
         my $comment = $1;
-        my $subs = '';
+	# If the C comment consists of int/* comment */x;, it compiles
+	# OK, but if /* comment */ is completely removed then intx;
+	# doesn't compile, so at minimum substitute one space
+	# character for each comment.
+        my $subs = ' ';
         while ($comment =~ /([\n\r])/g) {
             $subs .= $1;
         }
