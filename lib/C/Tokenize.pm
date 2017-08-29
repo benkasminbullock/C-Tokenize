@@ -451,6 +451,22 @@ sub function_arg
 sub strip_comments
 {
     my ($xs) = @_;
+    # Remove all the strings from $xs so that comments within strings
+    # are not matched.
+    my @strings;
+    my $magic;
+    fail:
+    for (0..9) {
+	$magic .= ('a'..'z')[int (rand (26))];
+    }
+    if ($xs =~ /$magic/) {
+	goto fail;
+    }
+    while ($xs =~ /($single_string_re)/g) {
+	my $match = $1;
+	push @strings, $match;
+	$xs =~ s/\Q$match\E/$magic$#strings/;
+    }
     # Remove trad comments but keep the line numbering. Trad comments
     # are deleted before C++ comments, see below for explanation.
     while ($xs =~ /($trad_comment_re)/) {
@@ -469,6 +485,8 @@ sub strip_comments
     # comments, otherwise "/* http://bad */" has its final "*/"
     # wrongly removed.
     $xs =~ s/$cxx_comment_re/\n/g;
+    # Restore the strings.
+    $xs =~ s/$magic([0-9]+)/$strings[$1]/g;
     return $xs;
 }
 
