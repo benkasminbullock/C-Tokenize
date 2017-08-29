@@ -36,16 +36,15 @@ commit.commit %]> released on [% commit.date %].
 =head1 DESCRIPTION
 
 This module provides a tokenizer, L</tokenize>, which breaks C source
-code into its smallest meaningful components, and the regular
-expressions which match each of these components. For example, the
-module supplies a regular expression L</$comment_re> which matches a C
-comment line.
+code into its smallest meaningful components, and the regexs which
+match each of these components. For example, the module supplies a
+regex L</$comment_re> which matches a C comment.
 
-It also supplies some extra regular expressions for, for example,
-local include statements, L</$include_local>, or C variables,
-L</$cvar_re>, as well as extra functions, like L</decomment> for
-removing traditional C comments, and L</strip_comments> for removing
-all comments from a C program.
+As well as the basic components of C, it also supplies regexes for,
+for example, local include statements, L</$include_local>, or C
+variables, L</$cvar_re>, as well as extra functions, like
+L</decomment> to remove the comment syntax of traditional C comments,
+and L</strip_comments> which removes all comments from a C program.
 
 =head1 REGULAR EXPRESSIONS
 

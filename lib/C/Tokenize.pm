@@ -5,13 +5,13 @@ use Carp;
 require Exporter;
 our @ISA = qw(Exporter);
 our @EXPORT_OK = qw/
-		       $fargs_re
 		       $char_const_re
 		       $comment_re
 		       $cpp_re
 		       $cvar_re
 		       $cxx_comment_re
 		       $decimal_re
+		       $fargs_re
 		       $grammar_re
 		       $hex_re
 		       $include
@@ -26,10 +26,10 @@ our @EXPORT_OK = qw/
 		       $word_re
 		       @fields
 		       decomment
-		       remove_quotes
-		       tokenize
 		       function_arg
+		       remove_quotes
 		       strip_comments
+		       tokenize
 		   /;
 
 our %EXPORT_TAGS = (
