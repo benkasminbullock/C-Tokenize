@@ -451,26 +451,13 @@ sub function_arg
 sub strip_comments
 {
     my ($xs) = @_;
-    # Remove all the strings from $xs so that comments within strings
-    # are not matched.
-    my @strings;
-    my $magic;
-    fail:
-    for (0..9) {
-	$magic .= ('a'..'z')[int (rand (26))];
-    }
-    if ($xs =~ /$magic/) {
-	goto fail;
-    }
-    while ($xs =~ /($single_string_re)/g) {
-	my $match = $1;
-	push @strings, $match;
-	$xs =~ s/\Q$match\E/$magic$#strings/;
-    }
     # Remove trad comments but keep the line numbering. Trad comments
     # are deleted before C++ comments, see below for explanation.
-    while ($xs =~ /($trad_comment_re)/) {
+    while ($xs =~ /($single_string_re|$trad_comment_re)/g) {
         my $comment = $1;
+	if ($comment =~ /^".*"$/) {
+	    next;
+	}
 	# If the C comment consists of int/* comment */x;, it compiles
 	# OK, but if /* comment */ is completely removed then intx;
 	# doesn't compile, so at minimum substitute one space
@@ -484,9 +471,16 @@ sub strip_comments
     # Remove "//" comments. Must do this only after removing trad
     # comments, otherwise "/* http://bad */" has its final "*/"
     # wrongly removed.
-    $xs =~ s/$cxx_comment_re/\n/g;
-    # Restore the strings.
-    $xs =~ s/$magic([0-9]+)/$strings[$1]/g;
+    while ($xs =~ /($single_string_re|$cxx_comment_re)/g) {
+        my $comment = $1;
+	if ($comment =~ /^".*"$/) {
+	    next;
+	}
+	my $pos = pos ($xs);
+	my $len = length ($comment);
+ substr ($xs, $pos - $len, $len) = "\n";
+    }
+
     return $xs;
 }
 

@@ -36,5 +36,13 @@ EOF
 my $scinstr = strip_comments ($instr);
 is ($scinstr, $instr, "Do not remove comments from strings");
 
+my $cxx = <<'EOF';
+int x; // delete
+char * y = "// keep";
+int z; // delete
+EOF
+my $out = strip_comments ($cxx);
+like ($out, qr!// keep!, "keep comments in string");
+unlike ($out, qr!// delete!, "delete other comments");
 
 done_testing ();
