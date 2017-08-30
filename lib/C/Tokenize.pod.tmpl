@@ -304,6 +304,11 @@ This removes all comments from its input while preserving line breaks.
 This function was moved to this module from L<XS::Check> in version
 0.14.
 
+This function can also be used to strip C-style comments from JSON
+without removing string contents:
+
+[% example("strip-json") %]
+
 =head1 EXPORTS
 
 Nothing is exported by default.
