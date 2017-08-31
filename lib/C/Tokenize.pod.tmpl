@@ -36,15 +36,15 @@ commit.commit %]> released on [% commit.date %].
 =head1 DESCRIPTION
 
 This module provides a tokenizer, L</tokenize>, which breaks C source
-code into its smallest meaningful components, and the regexs which
-match each of these components. For example, the module supplies a
-regex L</$comment_re> which matches a C comment.
+code into its smallest meaningful components, and the regexes which
+match each of these components. For example, L</$comment_re> matches a
+C comment.
 
-As well as the basic components of C, it also supplies regexes for,
-for example, local include statements, L</$include_local>, or C
-variables, L</$cvar_re>, as well as extra functions, like
-L</decomment> to remove the comment syntax of traditional C comments,
-and L</strip_comments> which removes all comments from a C program.
+As well as components of C, it supplies regexes for local include
+statements, L</$include_local>, and C variables, L</$cvar_re>, as well
+as extra functions, like L</decomment> to remove the comment syntax of
+traditional C comments, and L</strip_comments>, which removes all
+comments from a C program.
 
 =head1 REGULAR EXPRESSIONS
 
@@ -55,9 +55,9 @@ using, for example,
 
 to import C<$cpp_re>.
 
-Most of the following regular expressions do not do any capturing,
-except where noted. If you want to capture, add your own parentheses
-around the regular expression.
+The following regular expressions do not capture, except where
+noted. To capture, add your own parentheses around the regular
+expression.
 
 =head2 Comments
 
@@ -87,7 +87,8 @@ L</strip_comments> for removing all comments from a program.
 =item $cpp_re
 
 Match all C preprocessor instructions, such as #define, #include,
-#endif, and so on.
+#endif, and so on. A multiline preprocessor instruction is matched as
+#one piece.
 
 =item $include_local
 
@@ -115,8 +116,8 @@ This captures the entire statement in C<$1> and the file name in C<$2>.
 
 =item $octal_re
 
-Match an octal number, a number with digits 0 to 7 only which begins
-with a leading zero.
+Match an octal number, which is a number consisting of the digits 0 to
+7 only which begins with a leading zero.
 
 =item $hex_re
 
@@ -373,6 +374,10 @@ exercise many of the features of C.
 The C language does not impose a requirement that included file names
 end in .h. You can include a file with any name. However, the regexes
 L</$include> and L</$include_local> insist on a final .h.
+
+=item $cvar_re misses some cases
+
+See the discussion under L</$cvar_re>.
 
 =back
 
