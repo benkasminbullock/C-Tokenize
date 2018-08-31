@@ -27,7 +27,6 @@ our @EXPORT_OK = qw/
 		       @fields
 		       decomment
 		       function_arg
-		       remove_quotes
 		       strip_comments
 		       tokenize
 		   /;
