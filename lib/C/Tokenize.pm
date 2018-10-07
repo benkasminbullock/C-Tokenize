@@ -336,8 +336,6 @@ sub tokenize
     # This array contains array references, each of which is a pair of
     # start and end points of a line in $text.
 
-    my @lines = get_lines ($text);
-
     # The tokens the input is broken into.
 
     my @tokens;
