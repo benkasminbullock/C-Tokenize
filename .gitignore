@@ -2,3 +2,4 @@ README
 *.tar.gz
 Makefile
 MANIFEST
+C-Tokenize-[0-9]*
