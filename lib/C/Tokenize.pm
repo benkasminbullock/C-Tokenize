@@ -35,7 +35,7 @@ our %EXPORT_TAGS = (
     all => \@EXPORT_OK,
 );
 
-our $VERSION = '0.18';
+our $VERSION = '0.19';
 
 # http://www.open-std.org/JTC1/SC22/WG14/www/docs/n1256.pdf
 # 6.4.1
@@ -461,7 +461,10 @@ sub strip_comments
     # are deleted before C++ comments, see below for explanation.
     while ($xs =~ /($single_string_re|$trad_comment_re|$cxx_comment_re)/g) {
         my $comment = $1;
-	if ($comment =~ /^".*"$/) {
+	# The /s regex qualifier is necessary because
+	# $single_string_re can match newlines within the
+	# quotes. 2025-08-05
+	if ($comment =~ /^".*"$/s) {
 	    next;
 	}
 	# If the C comment consists of int/* comment */x;, it compiles
